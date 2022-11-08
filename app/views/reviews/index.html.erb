@@ -1,0 +1,36 @@
+<h1 class= "display-4 text-dark text-center">Reviews for: <%= link_to @movie.title, movie_path(@movie), class: 'text-warning'%></h1>
+<div class="d-flex justify-content-center flex-wrap row-hl">
+
+
+<% @movie.reviews.each do |review| %>
+
+
+<div class="card mb-4 border-dark mr-4" style="width: 25rem;" style="display:flex"> 
+     <p class="card-header text-center bg-dark"><%= stars(review.rating) %></p>
+     <div class= "card-body text-center">
+          <p class="lead"><%= review.content %> </p>
+          <% if owns_resource?(review) %>
+       <%= link_to "Edit Review", edit_movie_review_path(@movie, review), class: 'btn btn-outline-dark' %> <br>
+       <%= button_to "Delete Review", movie_review_path(@movie, review), method: :delete, data: { confirm: "Are you sure?"}, class: 'btn btn-outline-danger' %>
+       <% end %>
+     </div>
+     <div class= "card-footer text-center bg-dark text-warning">
+                    <div> Reviewed by: <%= review.user.username %> <br> <%= date_time_format(review.created_at) %></div>
+     </div>
+</div>
+
+
+
+<% end %>
+</div>
+
+
+ 
+
+
+
+
+
+
+
+

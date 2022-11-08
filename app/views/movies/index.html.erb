@@ -1,0 +1,66 @@
+<h1 class="pt-3 display-4 text-center bg-light text-dark">Cinephile Entertainment Collection</h1>
+<div class="d-flex justify-content-around row-hl p-2 bg-light">
+    <%= form_tag(movies_path, method: :get) do %>   
+            <%= text_field_tag :search, nil, placeholder: 'Search by Title' %>
+            <%= submit_tag ("Search"), class: 'btn btn-outline-warning ml-3' %>
+        
+    <% end %>
+</div>
+
+<% if @search %>
+<% if !@movie.id.present? %>
+    <h3 class= "display-4 text-danger text-center">Movie not found! Try again!</h3>
+<% else %>
+<table class="table table-hover" >
+    <thead class="thead-dark">
+        <tr>
+            <th class="pl-5">Movie Title</th>
+            <th class="pr-5">Release Date</th>
+            <th class="pl-5 ">Runtime </th>
+            <% if @movie.can_delete? %>
+            <th>Not the one you wanted?</th>
+            <% end %>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td class="pl-5"><%= link_to @movie.title, movie_path(@movie), class: 'text-dark' %></td>
+            <td class="pr-5"><%= date_format(@movie.release_date) %></td>
+            <td class="pl-5 "><%= @movie.runtime %> minutes</td>
+            <% if @movie.can_delete? %>
+            <td><%= button_to "Delete", @movie, method: :delete, class: 'btn btn-outline-danger ml-5' %></td>
+            <% end %>
+            <% end%>
+            </tr>
+    </tbody>
+</table>
+    
+<% else %>
+ <table class="table table-hover" >
+    <thead class="thead-dark">
+        <tr>
+            <th class="pl-5">Movie Title</th>
+            <th class="pr-5">Release Date</th>
+            <th class="pl-5 ">Runtime </th>
+        </tr>
+    </thead>
+
+    <% @movies.ordered_by_title.each do |movie| %>
+        <tbody>
+            <tr>
+                <td class="pl-5"><%= link_to (movie.title), movie_path(movie), class: 'text-dark' %></td>
+                <td class="pr-5"><%= date_format(movie.release_date) %></td>
+                <td class="pl-5 "><%= movie.runtime %> minutes</td>
+            </tr>
+        </tbody>
+    <% end %>
+ </table>
+<% end %>
+<% if @movies.present? %>
+<%= paginate(@movies) %>
+<% end %>
+
+
+
+
+

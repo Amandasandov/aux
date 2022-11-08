@@ -1,0 +1,38 @@
+<h1 class= 'text-weight-bold text-center'><%= @list.name %></h1>
+
+
+
+<p class= "lead text-center"><%= @list.description %></p>
+
+<% if @list.movies.empty? %>
+    <p class="text-weight-bold text-warning bg-dark text-center"> You haven't added any movies yet!</p>
+<% else %>
+<table class="table table-hover" >
+    <thead class="thead-dark">
+        <tr>
+            <th class= 'pl-5'>Movie Title</th>
+            <th class= 'pr-5'>Release Date</th>
+            <th class= 'pl-5'>Runtime </th>
+        </tr>
+    </thead>
+    <% @list.movies.ordered_by_title.each do |movie| %>
+        <tbody>
+            <tr>
+                <td class= 'pl-5'><%= link_to (movie.title), movie_path(movie), class: 'text-dark' %></td>
+                <td class= 'pr-5'><%= movie.release_date.strftime("%m/%d/%Y") %></td>
+                <td class='pl-5'><%= movie.runtime %> minutes</td>
+            </tr>
+        </tbody>
+    <% end %>
+ </table>
+<% end %>
+
+
+
+
+
+
+
+<p class="text-center"><%= link_to "Edit List", edit_list_path(@list), class: 'btn btn-outline-dark btn-lg'%></p>
+<p class="justify-content-center"><%= button_to "Delete list", @list, method: :delete, class: "btn btn-outline-danger btn-lg mx-auto d-block" %></p>
+

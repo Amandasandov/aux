@@ -1,0 +1,28 @@
+
+
+<%= render 'errors/errors', model: @list %>
+
+<div class="row justify-content-center">
+  <div class="form-group" style="width :50em;">
+    <%= form_with model: list, local:true do |form| %>
+    
+    <div class= "text-weight-bold text-dark text-center"><%= form.label :name %></div>
+    <span> <%= form.text_field :name, class: "form-control" %> </span>
+  </div>  
+   <div class="form-group" style="width :50em;">
+        <p class= 'text-center'><%= form.label :description %> </p>
+        <%= form.text_area :description, class: "form-control" %>
+   </div>
+   
+    <% if current_user.movies %>
+    <div class="justify-content-center pl-5" style="width :50em;">
+        <%= form.collection_check_boxes :movie_ids, list.movies.ordered_by_title, :id, :title do |b|%>
+        <div class="col pl-5"><%= b.check_box %><%= b.label { b.text } %></div>
+      <% end %>
+    <% end %>
+  </div>
+</div>
+    <div class="row justify-content-center"><%= form.submit value="Submit", class: "btn btn-outline-dark" %> </div>   
+
+</div>
+ <% end %>
